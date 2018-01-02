@@ -2,27 +2,78 @@ package mof;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Hashtable;
+import java.util.Collections;
+import java.util.Comparator;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
+import javax.swing.JCheckBox;
 import javax.swing.JTextArea;
-import javax.swing.JTextPane;
+import javax.swing.table.DefaultTableModel;
+import java.awt.BorderLayout;
+import java.awt.Graphics2D;
+import java.io.FileOutputStream;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.io.FileNotFoundException;
 
 /**
  *
  * @author ana
  */
-public class Frame extends javax.swing.JFrame {
 
+
+public class Frame extends javax.swing.JFrame {
+                                              
+        
+    /*
+     *Initializes the panes and 
+     *design of the program
+     */
+ 
+    private ArrayList<Judge> judgesArrayList;
+    private final ArrayList<JTextArea> textareaArrayList;
+    private ArrayList<Team> teamsArrayList;
+    private ArrayList<Speaker> speakersArrayList;
+    private final ArrayList<Pair> pairs; 
+    
+    private DefaultTableModel modelPair;
+    private DefaultTableModel pointsPairing;
+    
+            
+    private int numTeams;
+    private int numSpeakers;
+    private int numJudges;
+    private int pairsCount;
+    private int numRounds;
+    private int numRooms;
+    
     public Frame() {
+            
+        pairs = new ArrayList<>();
+        pairsCount = 0;
+        
+        numTeams = 0;
+        numSpeakers = 0;
+        numJudges = 0;
+        numRounds = 0;
+        numRooms = 0;
+       
+        this.textareaArrayList = new ArrayList<>();
         initComponents();
-        this.setTitle("Match selector");
+        this.setTitle("MOF Tabulation");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(480, 360));
         setIconImage(new ImageIcon(getClass().getClassLoader().getResource("mof/logo.png")).getImage());
-        tabbedpane.addTab("Judges", new JScrollPane(judges));
+        
+        //speakers.setEditable(false);
+        //TeamsPanel.setEnabledAt(2, false);
+        //TeamsPanel.setEnabledAt(3, false);
+        judgeTable.addKeyListener(new java.awt.event.KeyAdapter() {
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                updateJudges();
+            }
+        });
+        
     }
 
     /**
@@ -34,151 +85,1843 @@ public class Frame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        tabbedpane = new javax.swing.JTabbedPane();
-        addteamTextField = new javax.swing.JTextField();
-        addteamButton = new javax.swing.JButton();
-        deleteteamButton = new javax.swing.JButton();
+        jInternalFrame1 = new javax.swing.JInternalFrame();
         firststatusbarLabel = new javax.swing.JLabel();
-        makematchesButton = new javax.swing.JButton();
+        TeamsPanel = new javax.swing.JTabbedPane();
+        jPanel2 = new javax.swing.JPanel();
+        JudgeName = new javax.swing.JTextField();
+        JudgeInstitution = new javax.swing.JTextField();
+        JudgeExperience = new javax.swing.JComboBox<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        judgeTable = new javax.swing.JTable();
+        AddJudge = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        RoomTextField = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        AddRoom = new javax.swing.JButton();
+        jScrollPane13 = new javax.swing.JScrollPane();
+        RoomList = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        TeamName = new javax.swing.JTextField();
+        SpeakerOneName = new javax.swing.JTextField();
+        SpeakerTwoName = new javax.swing.JTextField();
+        SpeakerThreeName = new javax.swing.JTextField();
+        OrganizationName = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        teamTableDesign = new javax.swing.JTable();
+        addTeam = new javax.swing.JToggleButton();
+        RemoveTeam = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        speakerTable = new javax.swing.JTable();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        rTeamTable = new javax.swing.JTable();
+        jLabel10 = new javax.swing.JLabel();
+        Rounds = new javax.swing.JTabbedPane();
+        PairingOne = new javax.swing.JTabbedPane();
+        PairingPrintOne = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        PairingOneTable = new javax.swing.JTable();
+        InputPointsOne = new javax.swing.JPanel();
+        jScrollPane14 = new javax.swing.JScrollPane();
+        roundPoints = new javax.swing.JTable();
+        PairingTwo = new javax.swing.JTabbedPane();
+        PairingPrintTwo = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        PairingTwoTable = new javax.swing.JTable();
+        InputPointsTwo = new javax.swing.JPanel();
+        roundTwoPoints = new javax.swing.JScrollPane();
+        roundPoints2 = new javax.swing.JTable();
+        PairingThree = new javax.swing.JTabbedPane();
+        PairingPrintThree = new javax.swing.JPanel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        PairingThreeTable = new javax.swing.JTable();
+        InputPointsThree = new javax.swing.JPanel();
+        roundThreePoints = new javax.swing.JScrollPane();
+        roundPoints3 = new javax.swing.JTable();
+        PairingFour = new javax.swing.JTabbedPane();
+        PairingPrintFour = new javax.swing.JPanel();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        PairingFourTable = new javax.swing.JTable();
+        InputPointsFour = new javax.swing.JPanel();
+        roundFourPoints = new javax.swing.JScrollPane();
+        roundPoints4 = new javax.swing.JTable();
+        PairingFive = new javax.swing.JTabbedPane();
+        PairingPrintFive = new javax.swing.JPanel();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        PairingFiveTable = new javax.swing.JTable();
+        InputPointsFive = new javax.swing.JPanel();
+        roundFivePoints = new javax.swing.JScrollPane();
+        roundPoints5 = new javax.swing.JTable();
+        PairingSix = new javax.swing.JTabbedPane();
+        PairingPrintSix = new javax.swing.JPanel();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        PairingSixTable = new javax.swing.JTable();
+        InputPointsSix = new javax.swing.JPanel();
+        roundSixPoints = new javax.swing.JScrollPane();
+        roundPoints6 = new javax.swing.JTable();
+        PairingSeven = new javax.swing.JTabbedPane();
+        PairingPrintSeven = new javax.swing.JPanel();
+        jScrollPane11 = new javax.swing.JScrollPane();
+        PairingSevenTable = new javax.swing.JTable();
+        InputPointsSeven = new javax.swing.JPanel();
+        roundSevenPoints = new javax.swing.JScrollPane();
+        roundPoints7 = new javax.swing.JTable();
+        freezeteamsButton = new javax.swing.JButton();
+        inputPointsButton = new javax.swing.JToggleButton();
+        newRoundButton = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
+
+        jInternalFrame1.setVisible(true);
+
+        javax.swing.GroupLayout jInternalFrame1Layout = new javax.swing.GroupLayout(jInternalFrame1.getContentPane());
+        jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
+        jInternalFrame1Layout.setHorizontalGroup(
+            jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jInternalFrame1Layout.setVerticalGroup(
+            jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        addteamTextField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                addteamTextFieldKeyTyped(evt);
-            }
-        });
-
-        addteamButton.setText("Add new team");
-        addteamButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addteamButtonActionPerformed(evt);
-            }
-        });
-
-        deleteteamButton.setText("Delete selected team");
-        deleteteamButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteteamButtonActionPerformed(evt);
-            }
-        });
+        setBackground(new java.awt.Color(255, 187, 0));
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         firststatusbarLabel.setFont(new java.awt.Font("Open Sans", 2, 12)); // NOI18N
         firststatusbarLabel.setText("                   ");
 
-        makematchesButton.setText("Make matches!");
-        makematchesButton.addActionListener(new java.awt.event.ActionListener() {
+        TeamsPanel.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.gray, java.awt.Color.gray, java.awt.Color.darkGray, java.awt.Color.lightGray));
+
+        jPanel2.setBackground(new java.awt.Color(232, 232, 232));
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel2.setToolTipText("");
+
+        JudgeName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                makematchesButtonActionPerformed(evt);
+                JudgeNameActionPerformed(evt);
             }
         });
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        JudgeInstitution.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JudgeInstitutionActionPerformed(evt);
+            }
+        });
+
+        JudgeExperience.setForeground(new java.awt.Color(77, 77, 57));
+        JudgeExperience.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "A", "B", "C", "Shadow" }));
+        JudgeExperience.addContainerListener(new java.awt.event.ContainerAdapter() {
+            public void componentAdded(java.awt.event.ContainerEvent evt) {
+                JudgeExperienceComponentAdded(evt);
+            }
+        });
+        JudgeExperience.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JudgeExperienceActionPerformed(evt);
+            }
+        });
+
+        judgeTable.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        judgeTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Judge Name", "Institiution", "Level"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(judgeTable);
+
+        AddJudge.setText("Add Judge");
+        AddJudge.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddJudgeActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Insert judge name:");
+
+        jLabel3.setText("Insert institution:");
+
+        jLabel4.setText("Choose experience level:");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 748, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(JudgeName, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGap(24, 24, 24)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(JudgeInstitution, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(24, 24, 24)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(JudgeExperience, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(AddJudge))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(JudgeName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JudgeInstitution, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(JudgeExperience, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AddJudge))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        TeamsPanel.addTab("Judges", jPanel2);
+
+        jLabel1.setText("Insert new room");
+
+        AddRoom.setText("Add Room");
+        AddRoom.addActionListener(this::AddRoomActionPerformed);
+
+        RoomList.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Rooms"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane13.setViewportView(RoomList);
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane13, javax.swing.GroupLayout.DEFAULT_SIZE, 750, Short.MAX_VALUE)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(RoomTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(AddRoom)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(RoomTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AddRoom))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        TeamsPanel.addTab("Rooms", jPanel5);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        TeamName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TeamNameActionPerformed(evt);
+            }
+        });
+
+        SpeakerOneName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SpeakerOneNameActionPerformed(evt);
+            }
+        });
+
+        SpeakerTwoName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SpeakerTwoNameActionPerformed(evt);
+            }
+        });
+
+        SpeakerThreeName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SpeakerThreeNameActionPerformed(evt);
+            }
+        });
+
+        OrganizationName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OrganizationNameActionPerformed(evt);
+            }
+        });
+
+        teamTableDesign.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        teamTableDesign.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Team Name", "Speaker One", "Speaker Two", "Speaker Three", "Institution"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        teamTableDesign.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(teamTableDesign);
+
+        addTeam.setText("Add Team");
+        addTeam.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addTeamActionPerformed(evt);
+            }
+        });
+
+        RemoveTeam.setText("Remove Team");
+        RemoveTeam.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RemoveTeamActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Insert team name:");
+
+        jLabel6.setText("Insert institution:");
+
+        jLabel7.setText("Insert three speakers:");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(TeamName, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(OrganizationName, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(addTeam, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(SpeakerOneName, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(SpeakerTwoName, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(SpeakerThreeName, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 185, Short.MAX_VALUE)
+                        .addComponent(RemoveTeam, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TeamName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(OrganizationName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addTeam))
+                .addGap(8, 8, 8)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(SpeakerOneName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SpeakerTwoName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SpeakerThreeName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(RemoveTeam))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        TeamsPanel.addTab("Teams", jPanel1);
+
+        speakerTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Name", "Team", "Round 1", "Round 2", "Round 3", "Round 4", "Roung 5", "Round 6", "Total Points"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class, java.lang.Double.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        speakerTable.setColumnSelectionAllowed(true);
+        speakerTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(speakerTable);
+        speakerTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (speakerTable.getColumnModel().getColumnCount() > 0) {
+            speakerTable.getColumnModel().getColumn(0).setResizable(false);
+            speakerTable.getColumnModel().getColumn(1).setResizable(false);
+            speakerTable.getColumnModel().getColumn(2).setResizable(false);
+            speakerTable.getColumnModel().getColumn(2).setPreferredWidth(2);
+            speakerTable.getColumnModel().getColumn(3).setResizable(false);
+            speakerTable.getColumnModel().getColumn(3).setPreferredWidth(2);
+            speakerTable.getColumnModel().getColumn(4).setResizable(false);
+            speakerTable.getColumnModel().getColumn(4).setPreferredWidth(2);
+            speakerTable.getColumnModel().getColumn(5).setResizable(false);
+            speakerTable.getColumnModel().getColumn(5).setPreferredWidth(2);
+            speakerTable.getColumnModel().getColumn(6).setResizable(false);
+            speakerTable.getColumnModel().getColumn(6).setPreferredWidth(2);
+            speakerTable.getColumnModel().getColumn(7).setResizable(false);
+            speakerTable.getColumnModel().getColumn(7).setPreferredWidth(2);
+            speakerTable.getColumnModel().getColumn(8).setResizable(false);
+            speakerTable.getColumnModel().getColumn(8).setPreferredWidth(4);
+        }
+
+        jLabel8.setText("List of all speakers at this tournament. ");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(8, 8, 8)
+                .addComponent(jLabel8)
+                .addGap(1, 1, 1)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        TeamsPanel.addTab("Speakers", jPanel3);
+
+        rTeamTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Team", "Number of Wins", "Total Points"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class, java.lang.Double.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane4.setViewportView(rTeamTable);
+
+        jLabel10.setText("Ranked list of all teams participating in this tournament.");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 750, Short.MAX_VALUE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        TeamsPanel.addTab("Ranked Teams", jPanel4);
+
+        Rounds.setBackground(new java.awt.Color(248, 248, 248));
+        Rounds.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        Rounds.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        Rounds.setFont(new java.awt.Font("Open Sans", 1, 12)); // NOI18N
+
+        PairingOneTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Affirmative", "Negative", "Judge", "Room"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane5.setViewportView(PairingOneTable);
+        if (PairingOneTable.getColumnModel().getColumnCount() > 0) {
+            PairingOneTable.getColumnModel().getColumn(0).setResizable(false);
+            PairingOneTable.getColumnModel().getColumn(1).setResizable(false);
+            PairingOneTable.getColumnModel().getColumn(2).setResizable(false);
+            PairingOneTable.getColumnModel().getColumn(3).setResizable(false);
+        }
+
+        javax.swing.GroupLayout PairingPrintOneLayout = new javax.swing.GroupLayout(PairingPrintOne);
+        PairingPrintOne.setLayout(PairingPrintOneLayout);
+        PairingPrintOneLayout.setHorizontalGroup(
+            PairingPrintOneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PairingPrintOneLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        PairingPrintOneLayout.setVerticalGroup(
+            PairingPrintOneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PairingPrintOneLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        PairingOne.addTab("Pairing", PairingPrintOne);
+
+        InputPointsOne.setBackground(new java.awt.Color(250, 250, 250));
+
+        roundPoints.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Judge", "Affirmative", "Points", "Negative", "Points", "Winner"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, true, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane14.setViewportView(roundPoints);
+        if (roundPoints.getColumnModel().getColumnCount() > 0) {
+            roundPoints.getColumnModel().getColumn(0).setResizable(false);
+            roundPoints.getColumnModel().getColumn(1).setResizable(false);
+            roundPoints.getColumnModel().getColumn(2).setMaxWidth(50);
+            roundPoints.getColumnModel().getColumn(3).setResizable(false);
+            roundPoints.getColumnModel().getColumn(4).setMaxWidth(50);
+        }
+
+        javax.swing.GroupLayout InputPointsOneLayout = new javax.swing.GroupLayout(InputPointsOne);
+        InputPointsOne.setLayout(InputPointsOneLayout);
+        InputPointsOneLayout.setHorizontalGroup(
+            InputPointsOneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(InputPointsOneLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane14, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        InputPointsOneLayout.setVerticalGroup(
+            InputPointsOneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(InputPointsOneLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        PairingOne.addTab("Input Points", InputPointsOne);
+
+        Rounds.addTab("Round 1", PairingOne);
+
+        PairingTwoTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Affirmative", "Negative", "Judge", "Room"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane6.setViewportView(PairingTwoTable);
+
+        javax.swing.GroupLayout PairingPrintTwoLayout = new javax.swing.GroupLayout(PairingPrintTwo);
+        PairingPrintTwo.setLayout(PairingPrintTwoLayout);
+        PairingPrintTwoLayout.setHorizontalGroup(
+            PairingPrintTwoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PairingPrintTwoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        PairingPrintTwoLayout.setVerticalGroup(
+            PairingPrintTwoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PairingPrintTwoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        PairingTwo.addTab("Pairing", PairingPrintTwo);
+
+        roundPoints2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Judge", "Affirmative", "Points", "Negative", "Points"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, true, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        roundTwoPoints.setViewportView(roundPoints2);
+        if (roundPoints2.getColumnModel().getColumnCount() > 0) {
+            roundPoints2.getColumnModel().getColumn(0).setResizable(false);
+            roundPoints2.getColumnModel().getColumn(1).setResizable(false);
+            roundPoints2.getColumnModel().getColumn(2).setMaxWidth(50);
+            roundPoints2.getColumnModel().getColumn(3).setResizable(false);
+            roundPoints2.getColumnModel().getColumn(4).setMaxWidth(50);
+        }
+
+        javax.swing.GroupLayout InputPointsTwoLayout = new javax.swing.GroupLayout(InputPointsTwo);
+        InputPointsTwo.setLayout(InputPointsTwoLayout);
+        InputPointsTwoLayout.setHorizontalGroup(
+            InputPointsTwoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(InputPointsTwoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(roundTwoPoints, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        InputPointsTwoLayout.setVerticalGroup(
+            InputPointsTwoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(InputPointsTwoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(roundTwoPoints, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        PairingTwo.addTab("Input Points", InputPointsTwo);
+
+        Rounds.addTab("Round 2", PairingTwo);
+
+        PairingThreeTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Affirmative", "Negative", "Judge", "Room"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane7.setViewportView(PairingThreeTable);
+
+        javax.swing.GroupLayout PairingPrintThreeLayout = new javax.swing.GroupLayout(PairingPrintThree);
+        PairingPrintThree.setLayout(PairingPrintThreeLayout);
+        PairingPrintThreeLayout.setHorizontalGroup(
+            PairingPrintThreeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PairingPrintThreeLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        PairingPrintThreeLayout.setVerticalGroup(
+            PairingPrintThreeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PairingPrintThreeLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        PairingThree.addTab("Pairing", PairingPrintThree);
+
+        roundPoints3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Judge", "Affirmative", "Points", "Negative", "Points"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, true, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        roundThreePoints.setViewportView(roundPoints3);
+        if (roundPoints3.getColumnModel().getColumnCount() > 0) {
+            roundPoints3.getColumnModel().getColumn(0).setResizable(false);
+            roundPoints3.getColumnModel().getColumn(1).setResizable(false);
+            roundPoints3.getColumnModel().getColumn(2).setMaxWidth(50);
+            roundPoints3.getColumnModel().getColumn(3).setResizable(false);
+            roundPoints3.getColumnModel().getColumn(4).setMaxWidth(50);
+        }
+
+        javax.swing.GroupLayout InputPointsThreeLayout = new javax.swing.GroupLayout(InputPointsThree);
+        InputPointsThree.setLayout(InputPointsThreeLayout);
+        InputPointsThreeLayout.setHorizontalGroup(
+            InputPointsThreeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(InputPointsThreeLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(roundThreePoints, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        InputPointsThreeLayout.setVerticalGroup(
+            InputPointsThreeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(InputPointsThreeLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(roundThreePoints, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        PairingThree.addTab("Input Points", InputPointsThree);
+
+        Rounds.addTab("Round 3", PairingThree);
+
+        PairingFourTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Affirmative", "Negative", "Judge", "Room"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane8.setViewportView(PairingFourTable);
+
+        javax.swing.GroupLayout PairingPrintFourLayout = new javax.swing.GroupLayout(PairingPrintFour);
+        PairingPrintFour.setLayout(PairingPrintFourLayout);
+        PairingPrintFourLayout.setHorizontalGroup(
+            PairingPrintFourLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PairingPrintFourLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        PairingPrintFourLayout.setVerticalGroup(
+            PairingPrintFourLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PairingPrintFourLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        PairingFour.addTab("Pairing", PairingPrintFour);
+
+        roundPoints4.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Judge", "Affirmative", "Points", "Negative", "Points"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, true, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        roundFourPoints.setViewportView(roundPoints4);
+        if (roundPoints4.getColumnModel().getColumnCount() > 0) {
+            roundPoints4.getColumnModel().getColumn(0).setResizable(false);
+            roundPoints4.getColumnModel().getColumn(1).setResizable(false);
+            roundPoints4.getColumnModel().getColumn(2).setMaxWidth(50);
+            roundPoints4.getColumnModel().getColumn(3).setResizable(false);
+            roundPoints4.getColumnModel().getColumn(4).setMaxWidth(50);
+        }
+
+        javax.swing.GroupLayout InputPointsFourLayout = new javax.swing.GroupLayout(InputPointsFour);
+        InputPointsFour.setLayout(InputPointsFourLayout);
+        InputPointsFourLayout.setHorizontalGroup(
+            InputPointsFourLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(InputPointsFourLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(roundFourPoints, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        InputPointsFourLayout.setVerticalGroup(
+            InputPointsFourLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(InputPointsFourLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(roundFourPoints, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        PairingFour.addTab("Input Points", InputPointsFour);
+
+        Rounds.addTab("Round 4", PairingFour);
+
+        PairingFiveTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Affirmative", "Negative", "Judge", "Room"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane9.setViewportView(PairingFiveTable);
+
+        javax.swing.GroupLayout PairingPrintFiveLayout = new javax.swing.GroupLayout(PairingPrintFive);
+        PairingPrintFive.setLayout(PairingPrintFiveLayout);
+        PairingPrintFiveLayout.setHorizontalGroup(
+            PairingPrintFiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PairingPrintFiveLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        PairingPrintFiveLayout.setVerticalGroup(
+            PairingPrintFiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PairingPrintFiveLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        PairingFive.addTab("Pairing", PairingPrintFive);
+
+        roundPoints5.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Judge", "Affirmative", "Points", "Negative", "Points"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, true, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        roundFivePoints.setViewportView(roundPoints5);
+        if (roundPoints5.getColumnModel().getColumnCount() > 0) {
+            roundPoints5.getColumnModel().getColumn(0).setResizable(false);
+            roundPoints5.getColumnModel().getColumn(1).setResizable(false);
+            roundPoints5.getColumnModel().getColumn(2).setMaxWidth(50);
+            roundPoints5.getColumnModel().getColumn(3).setResizable(false);
+            roundPoints5.getColumnModel().getColumn(4).setMaxWidth(50);
+        }
+
+        javax.swing.GroupLayout InputPointsFiveLayout = new javax.swing.GroupLayout(InputPointsFive);
+        InputPointsFive.setLayout(InputPointsFiveLayout);
+        InputPointsFiveLayout.setHorizontalGroup(
+            InputPointsFiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(InputPointsFiveLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(roundFivePoints, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        InputPointsFiveLayout.setVerticalGroup(
+            InputPointsFiveLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(InputPointsFiveLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(roundFivePoints, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        PairingFive.addTab("Input Points", InputPointsFive);
+
+        Rounds.addTab("Round 5", PairingFive);
+
+        PairingSixTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Affirmative", "Negative", "Judge", "Room"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane10.setViewportView(PairingSixTable);
+
+        javax.swing.GroupLayout PairingPrintSixLayout = new javax.swing.GroupLayout(PairingPrintSix);
+        PairingPrintSix.setLayout(PairingPrintSixLayout);
+        PairingPrintSixLayout.setHorizontalGroup(
+            PairingPrintSixLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PairingPrintSixLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        PairingPrintSixLayout.setVerticalGroup(
+            PairingPrintSixLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PairingPrintSixLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        PairingSix.addTab("Pairing", PairingPrintSix);
+
+        roundPoints6.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Judge", "Affirmative", "Points", "Negative", "Points"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, true, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        roundSixPoints.setViewportView(roundPoints6);
+        if (roundPoints6.getColumnModel().getColumnCount() > 0) {
+            roundPoints6.getColumnModel().getColumn(0).setResizable(false);
+            roundPoints6.getColumnModel().getColumn(1).setResizable(false);
+            roundPoints6.getColumnModel().getColumn(2).setMaxWidth(50);
+            roundPoints6.getColumnModel().getColumn(3).setResizable(false);
+            roundPoints6.getColumnModel().getColumn(4).setMaxWidth(50);
+        }
+
+        javax.swing.GroupLayout InputPointsSixLayout = new javax.swing.GroupLayout(InputPointsSix);
+        InputPointsSix.setLayout(InputPointsSixLayout);
+        InputPointsSixLayout.setHorizontalGroup(
+            InputPointsSixLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(InputPointsSixLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(roundSixPoints, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        InputPointsSixLayout.setVerticalGroup(
+            InputPointsSixLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(InputPointsSixLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(roundSixPoints, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        PairingSix.addTab("Input Points", InputPointsSix);
+
+        Rounds.addTab("Round 6", PairingSix);
+
+        PairingSevenTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Affirmative", "Negative", "Judge", "Room"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane11.setViewportView(PairingSevenTable);
+
+        javax.swing.GroupLayout PairingPrintSevenLayout = new javax.swing.GroupLayout(PairingPrintSeven);
+        PairingPrintSeven.setLayout(PairingPrintSevenLayout);
+        PairingPrintSevenLayout.setHorizontalGroup(
+            PairingPrintSevenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PairingPrintSevenLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        PairingPrintSevenLayout.setVerticalGroup(
+            PairingPrintSevenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PairingPrintSevenLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        PairingSeven.addTab("Pairing", PairingPrintSeven);
+
+        roundPoints7.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Judge", "Affirmative", "Points", "Negative", "Points"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, true, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        roundSevenPoints.setViewportView(roundPoints7);
+        if (roundPoints7.getColumnModel().getColumnCount() > 0) {
+            roundPoints7.getColumnModel().getColumn(0).setResizable(false);
+            roundPoints7.getColumnModel().getColumn(1).setResizable(false);
+            roundPoints7.getColumnModel().getColumn(2).setMaxWidth(50);
+            roundPoints7.getColumnModel().getColumn(3).setResizable(false);
+            roundPoints7.getColumnModel().getColumn(4).setMaxWidth(50);
+        }
+
+        javax.swing.GroupLayout InputPointsSevenLayout = new javax.swing.GroupLayout(InputPointsSeven);
+        InputPointsSeven.setLayout(InputPointsSevenLayout);
+        InputPointsSevenLayout.setHorizontalGroup(
+            InputPointsSevenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(InputPointsSevenLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(roundSevenPoints, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        InputPointsSevenLayout.setVerticalGroup(
+            InputPointsSevenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(InputPointsSevenLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(roundSevenPoints, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        PairingSeven.addTab("Input Points", InputPointsSeven);
+
+        Rounds.addTab("Round 7", PairingSeven);
+
+        TeamsPanel.addTab("Pairings", Rounds);
+
+        freezeteamsButton.setText("Freeze teams");
+        freezeteamsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                freezeteamsButtonActionPerformed(evt);
+            }
+        });
+
+        inputPointsButton.setText("Input points");
+        inputPointsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputPointsButtonActionPerformed(evt);
+            }
+        });
+
+        newRoundButton.setText("Start New Round");
+        newRoundButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newRoundButtonActionPerformed(evt);
+            }
+        });
+
+        jMenuBar1.setBackground(new java.awt.Color(205, 205, 205));
+        jMenuBar1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.lightGray, java.awt.Color.gray));
+        jMenuBar1.setForeground(new java.awt.Color(1, 1, 1));
+
+        jMenu1.setText("File");
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setBackground(new java.awt.Color(170, 170, 170));
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 582, Short.MAX_VALUE)
-                    .addComponent(tabbedpane)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(addteamTextField)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(addteamButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(deleteteamButton))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(makematchesButton)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(firststatusbarLabel)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(firststatusbarLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(freezeteamsButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(inputPointsButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(newRoundButton))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(TeamsPanel)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(TeamsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addteamButton)
-                    .addComponent(addteamTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(deleteteamButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tabbedpane, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(firststatusbarLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(makematchesButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
+                    .addComponent(firststatusbarLabel)
+                    .addComponent(freezeteamsButton)
+                    .addComponent(inputPointsButton)
+                    .addComponent(newRoundButton))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addTeam() {
-        textareaHash.put(numberOfTeamsPlusOne, new JTextArea());
-        tabbedpane.addTab(addteamTextField.getText(), new JScrollPane(textareaHash.get(numberOfTeamsPlusOne)));
-        firststatusbarLabel.setText("Team '" + addteamTextField.getText() + "' added.");
-        addteamTextField.setText("");
-        numberOfTeamsPlusOne++;
+    
+   // private void print() throws FileNotFoundException{
+//        getContentPane().setLayout(new BorderLayout());
+//
+//        JPanel tPanel = new JPanel(new BorderLayout());
+//        tPanel.add(teamTableDesign.getTableHeader(), BorderLayout.NORTH);
+//        tPanel.add(teamTableDesign, BorderLayout.CENTER);
+//
+//        getContentPane().add(tPanel, BorderLayout.CENTER);
+//
+//        Document document = new Document();
+//        PdfWriter writer;
+//
+//        writer = PdfWriter.getInstance(document, new FileOutputStream("Breaking teams"));
+//
+//        // writer = PdfWriter.getInstance(document, new
+//        // FileOutputStream("my_jtable_fonts.pdf"));
+//
+//        document.open();
+//        PdfContentByte cb = writer.getDirectContent();
+//
+//        PdfTemplate tp = cb.createTemplate(500, 500);
+//        Graphics2D g2;
+//
+//        g2 = tp.createGraphicsShapes(500, 500);
+//
+//        // g2 = tp.createGraphics(500, 500);
+//        teamTableDesign.print(g2);
+//        g2.dispose();
+//        cb.addTemplate(tp, 30, 300);
+//
+//        // step 5: we close the document
+//        document.close();
+//    }
+
+    
+    
+    /*
+     *Inputs all the judge info
+     *into an array of Judges
+     *TODO: Make input more dynamic so that you can add more 
+     *      than a predetermined number of judges 
+     */
+    private void updateJudges() {
+        judgesArrayList = new ArrayList<>();
+          
+        for(int i = 0; i < numJudges; i++){
+            
+            String name = judgeTable.getValueAt(i, 0).toString();
+            String qualification = judgeTable.getValueAt(i, 2).toString();
+            String org = judgeTable.getValueAt(i, 1).toString();
+            
+            judgesArrayList.add(new Judge(name, qualification ,org, i , false));
+        }
     }
-
-    Hashtable<String, Integer> table = new Hashtable<String, Integer>();
-
-    private void addteamButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addteamButtonActionPerformed
-        addTeam();
-    }//GEN-LAST:event_addteamButtonActionPerformed
-
-    private void addteamTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_addteamTextFieldKeyTyped
-        if (evt.getKeyChar() == '\n') {
-            addTeam();
+        
+    /*
+     *Inputs all the team and speaker info
+     *into an array of Teams and Speakers
+     */
+    private void updateTeams() {        
+        teamsArrayList = new ArrayList<>();
+        speakersArrayList = new ArrayList<>();
+        
+        for(int i = 0; i < numTeams; i++){                     
+            String name = teamTableDesign.getValueAt(i, 0).toString();
+               
+            String SpeakerOne = teamTableDesign.getValueAt(i, 1).toString();
+            speakersArrayList.add(new Speaker(SpeakerOne, name, 0, i*3));
+ 
+            String SpeakerTwo = teamTableDesign.getValueAt(i, 2).toString();         
+            speakersArrayList.add(new Speaker(SpeakerTwo, name, 0, i*3));
+            
+            String SpeakerThree = teamTableDesign.getValueAt(i, 3).toString();
+            speakersArrayList.add(new Speaker(SpeakerThree, name, 0, i*3));
+      
+            String org = teamTableDesign.getValueAt(i, 4).toString();
+            
+            teamsArrayList.add(new Team(name, i ,org));
         }
-    }//GEN-LAST:event_addteamTextFieldKeyTyped
-
-    private void makematchesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makematchesButtonActionPerformed
-        String[] s = judges.getText().split("\\r?\\n");
-        Judge[] j = new Judge[s.length];
-        for (int i = 0; i < s.length; i++) {
-            j[i] = new Judge(s[i]);
+    }
+    
+    /*
+     *Inputs speaker info into
+     *table of speakers
+     *TODO: Figure out how to get size of speaker list
+     */    
+    private void updateSpeakers() {
+        DefaultTableModel model = (DefaultTableModel) speakerTable.getModel();
+        model.setRowCount(0); //Clears the table every time
+        
+        for(int i = 0; i < numSpeakers; i++){
+            
+            String name = speakersArrayList.get(i).getName();
+            String team = speakersArrayList.get(i).getTeamName();
+            double roundOne = speakersArrayList.get(i).getPts(1);
+            double roundTwo = speakersArrayList.get(i).getPts(2);
+            double roundThree = speakersArrayList.get(i).getPts(3);
+            double roundFour = speakersArrayList.get(i).getPts(4);
+            double roundFive = speakersArrayList.get(i).getPts(5);
+            double roundSix = speakersArrayList.get(i).getPts(6);
+            double totalPts = speakersArrayList.get(i).totalPts();
+            
+            model.addRow(new Object[]{ name , team , roundOne, roundTwo, 
+                        roundThree, roundFour, roundFive, roundSix, totalPts});
         }
-        judgesArrayList = new ArrayList<>(Arrays.asList(j));
-
-        Team[] t = new Team[numberOfTeamsPlusOne - 1];
-        for (int i = 1; i < numberOfTeamsPlusOne; i++) {
-            t[i - 1] = new Team(textareaHash.get(i).getText().split("\\r?\\n"));
+    }
+    
+    private void updateSpeakers(int roundnum){
+        DefaultTableModel model = (DefaultTableModel) speakerTable.getModel();
+        double points = 0;
+        
+        for(int i = 0; i < numSpeakers; i++){
+            points = speakersArrayList.get(i).getPts(roundnum);
+            model.setValueAt(points, i, roundnum+1);
         }
-        teamsArrayList = new ArrayList<>(Arrays.asList(t));
-
-        jTextArea1.setText("Number of teams plus one for the judges: " + String.valueOf(numberOfTeamsPlusOne)
-                + '\n' + "Array list consisting of the judges:" + String.valueOf(judgesArrayList) + '\n'
-        + "Array list consisting of the teams:" + String.valueOf(teamsArrayList));
-    }//GEN-LAST:event_makematchesButtonActionPerformed
-
-    private void deleteteamButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteteamButtonActionPerformed
-        for (int i = 0; i < tabbedpane.getTabCount(); i++) {
-            if (tabbedpane.getComponentAt(i).isShowing()) {
-                if (i > 0) {
-                    firststatusbarLabel.setText("Team '" + tabbedpane.getTitleAt(i) + "' deleted.");
-                    tabbedpane.remove(i);
-                    numberOfTeamsPlusOne--;
-                } else {
-                    firststatusbarLabel.setText("Can't delete the judges!");
-
+    }
+    
+    /*
+     *Prints the list of teams into a separate, ranked table
+     *TODO: Print more useful information than what there is now 
+     */
+    private void updateTeamRank(){
+        DefaultTableModel modelTeam = (DefaultTableModel) rTeamTable.getModel();
+        modelTeam.setRowCount(0); //Clears the table every time
+        
+        for(int i = 0; i < numTeams; i++){
+            String name = teamsArrayList.get(i).getNames();
+            int wins = teamsArrayList.get(i).getWins();
+            double pts = teamsArrayList.get(i).getPts();
+            modelTeam.addRow(new Object[]{ name, wins , pts});
+        }    
+    }
+  
+     
+    /*
+     *Function that swaps teams/judges in case they come from the same organization 
+     *as the other team/s
+     */
+    public void checkRestrictions(int teamOne,int teamTwo, int judge){
+        int counter = 0;        
+        while(teamsArrayList.get(teamOne).getOrg().equals(teamsArrayList.get(teamTwo).getOrg()) 
+              && counter < numTeams){
+            if(teamTwo + counter == numTeams){
+                Collections.swap(teamsArrayList, teamTwo, 0);
+                counter = 0;
+            }
+            else{
+                Collections.swap(teamsArrayList, teamTwo, teamTwo + counter);
+            }    
+            counter++;
+        }
+        
+        counter = 0;
+        while((judgesArrayList.get(judge).getOrg().equals(teamsArrayList.get(teamOne).getOrg()) 
+                || judgesArrayList.get(judge).getOrg().equals(teamsArrayList.get(teamTwo).getOrg())) 
+                && counter < numTeams){
+           
+            if(judge + counter == numJudges){
+                Collections.swap(judgesArrayList, judge, 0);
+                counter = 0;
+            }
+            else{
+                Collections.swap(judgesArrayList, judge, judge + counter);
+            }
+            counter++;
+        }
+    }
+    
+    /*
+     *Function that swaps teams if they have debated each other before
+     *TODO: Test this function more
+     */
+    public void checkTeamRestrictions(int teamOne, int teamTwo){
+        for(int i = 0; i < pairsCount; i++){
+            int counter = 0;
+            //Checks whether this pair has debated against each other before
+            while(teamOne == pairs.get(i).key() && teamTwo == pairs.get(i).value() && counter < numTeams){
+                if(teamTwo + counter == numTeams){
+                    Collections.swap(teamsArrayList, teamTwo, 0);
+                    counter = 0;
                 }
-                break;
+                else{
+                    Collections.swap(teamsArrayList, teamTwo, teamTwo + counter);
+                }
+                counter++;
+            }
+            //Checks whether this pair has debated each other in opposite positions
+            counter = 0;
+            while(teamOne == pairs.get(i).value() && teamTwo == pairs.get(i).key() && counter < numTeams){
+                if(teamTwo + counter == numTeams){
+                    Collections.swap(teamsArrayList, teamTwo, 0);
+                    counter = 0;
+                }
+                else{
+                    Collections.swap(teamsArrayList, teamTwo, teamTwo + counter);
+                }
+                counter++;
             }
         }
-    }//GEN-LAST:event_deleteteamButtonActionPerformed
+    }
+    
+     private void roundNumber(){  
+        switch (numRounds) {
+            case 1:
+                {
+                    modelPair = (DefaultTableModel) PairingOneTable.getModel();
+                    pointsPairing = (DefaultTableModel) roundPoints.getModel();
+                    break;
+                }
+            case 2: 
+                {
+                    modelPair = (DefaultTableModel) PairingTwoTable.getModel();
+                    pointsPairing = (DefaultTableModel) roundPoints2.getModel();
+                    break;
+                }
+            case 3:
+                {
+                    modelPair = (DefaultTableModel) PairingThreeTable.getModel();
+                    pointsPairing = (DefaultTableModel) roundPoints3.getModel();
+                    break;
+                }
+            case 4:
+                {
+                    modelPair = (DefaultTableModel) PairingFourTable.getModel();
+                    pointsPairing = (DefaultTableModel) roundPoints4.getModel();
+                    break;
+                }
+            case 5:
+                {
+                    modelPair = (DefaultTableModel) PairingFiveTable.getModel();
+                    pointsPairing = (DefaultTableModel) roundPoints5.getModel();
+                    break;
+                }
+            default:
+                {
+                    modelPair = (DefaultTableModel) PairingSixTable.getModel();
+                    pointsPairing = (DefaultTableModel) roundPoints6.getModel();
+                    break;
+                }
+        }
+    }
+    
+    /*
+     *Function that does the random pairing for the first round
+     */
+    private void randomPairing(){
+        
+        
+        System.out.println("Random Pairing 1");
+        
+        modelPair = (DefaultTableModel) PairingOneTable.getModel();
+        DefaultTableModel modelRooms = (DefaultTableModel) RoomList.getModel();
+        
+        System.out.println("Random Pairing 2");
+        
+        for(int i = 0; i < numTeams/2; i++){       
+      
+            System.out.println("Random Pairing 3 + " + i);
+            
+            //Checks whether teams can debate against each other, swaps if not
+            //checkRestrictions(i, numTeams/2+i, i);
+           
+            //Get names of each team debating
+            String team1 = teamsArrayList.get(i).getNames();
+            String team2 = teamsArrayList.get(numTeams/2 + i).getNames();
+            String judge = judgesArrayList.get(i).getName();
+            String room =  (String) modelRooms.getValueAt(i, 0);
+            
+            System.out.println("Random Pairing 4 after getting items ");
+            
+            //Print pairing into a new row
+            modelPair.addRow(new Object[]{ team1, team2, judge, room});                  
+           
+            System.out.println("Random Pairing 5 adding row ");
+            
+            //Gets team index for points input (I'm not sure why this is separate? 
+            //It made sense when i wrote it, I think its something about matching
+            //the right team to the right points)
+            int teamOneIndex = teamsArrayList.get(i).getIndex();
+            int teamTwoIndex = teamsArrayList.get(numTeams/2 + i).getIndex();
+      
+            System.out.println("Random Pairing after index check");
+            
+            //Records that these two teams have been paired together
+            Pair pair = new Pair(teamOneIndex, teamTwoIndex);
+            pairs.add(pair);
+            pairsCount ++;        
+            
+            System.out.println("Random Pairing after pair input");
+            
+            //Calls a function which draws the table for point input
+            inputPoints(teamOneIndex, teamTwoIndex, team1, team2, judge);
+            
+            System.out.println("Random Pairing after input points called");
+        }
+        
+        System.out.println("Random Pairing leave loop");
+    }
+ 
+    /*
+     * Pairs the highest scoring team within a bracket with the lowest
+     * scoring team from that bracket
+     */
+    private void highLowPairing(){
+        
+        modelPair = (DefaultTableModel) PairingTwoTable.getModel();
+        modelPair.setRowCount(0);
+    
+        pointsPairing = (DefaultTableModel) roundPoints3.getModel();
+        pointsPairing.setRowCount(0);
+        
+        DefaultTableModel modelRooms = (DefaultTableModel) RoomList.getModel();
+        
+        for(int j = 0; j < 2; j++){
+            for(int i = 0; i < numTeams/4; i++){
+                String team1 = teamsArrayList.get(i + numTeams/2*j).getNames();
+                String team2 = teamsArrayList.get(numTeams/2 - 1 - i + numTeams/2*j).getNames();
+                String judge = judgesArrayList.get(i * (j+1)).getName();
+                String room =  (String) modelRooms.getValueAt(i, 0);
+            
+                modelPair.addRow(new Object[]{ team1, team2, judge, room});
+        
+                //Gets the indices of each team for proper point input
+                int teamOneIndex = teamsArrayList.get(i + numTeams/2*j).getIndex();
+                int teamTwoIndex = teamsArrayList.get(numTeams/2-1-i + numTeams/2*j).getIndex();
+            
+                //Records that these two teams have been paired together
+                Pair pair = new Pair(teamOneIndex, teamTwoIndex);
+                pairs.add(pair);
+                pairsCount ++;
+            
+                //Prints them into the table for point input
+                inputPoints(teamOneIndex, teamTwoIndex, team1, team2, judge);
+            }        
+        }
+    }
+    
+   
+    /*
+     *Pairs together the highest scoring teams with each other
+     *and the lowest scoring teams with each other
+     *by just pairing every second team in the list with the one following it
+     *since this function is always called on an ordered array list
+     */
+    private void highHighPairing(){
+        
+        roundNumber();
+        
+        modelPair.setRowCount(0); 
+        pointsPairing.setRowCount(0); 
+                
+        DefaultTableModel modelRooms = (DefaultTableModel) RoomList.getModel();
+        
+        for(int i = 0; i < numTeams; i+=2){
+           
+            //Checks whether these teams can debate each other
+            //checkRestrictions(i, i+1, i/2);
+            //checkTeamRestrictions(i, i+1);
+                    
+            //Gets the names of the teams and judge
+            String team1 = teamsArrayList.get(i).getNames();
+            String team2 = teamsArrayList.get(i+1).getNames();            
+            String judge = judgesArrayList.get(i/2).getName();
+            String room =  (String) modelRooms.getValueAt(i, 0);
+           
+            //Prints them into the pairing table
+            modelPair.addRow(new Object[]{ team1, team2, judge, room});    
+            
+            //Gets the indices of each team for proper point input
+            int teamOneIndex = teamsArrayList.get(i).getIndex();
+            int teamTwoIndex = teamsArrayList.get(i+1).getIndex();
+            
+            //Records that these two teams have been paired together
+            Pair pair = new Pair(teamOneIndex, teamTwoIndex);
+            pairs.add(pair);
+            pairsCount ++;
+            
+            //Prints them into the table for point input
+            inputPoints(teamOneIndex, teamTwoIndex, team1, team2, judge);
+        }
+    }
+        
+    /*
+     *Prints the pairings and judges into a modifiable table
+     *later used for inputing points
+     */
+    private void inputPoints(int teamOneIndex, int teamTwoIndex, String team1, String team2, String judge){
+        roundNumber();
+        
+        pointsPairing.addRow(new Object[]{ judge, team1, " ", team2 , " " , "Winner"});
+        
+        System.out.println("Input Points 1");
+                System.out.println("AAAAAAA 1");
+
+        JCheckBox affButton = new JCheckBox("Affirmative");
+        
+        System.out.println("AAAAAAA 2");
+        JCheckBox negButton = new JCheckBox("Negative");
+        System.out.println("AAAAAAA 3");
+        pointsPairing.addRow(new Object[]{ " ", speakersArrayList.get(teamOneIndex*3).getName(), 
+                                           " ", speakersArrayList.get(teamTwoIndex*3).getName() , " " , affButton});     
+        System.out.println("AAAAAAA 4");
+        System.out.println("Input points index*3 " + teamOneIndex + teamTwoIndex);
+        
+        pointsPairing.addRow(new Object[]{ " ", speakersArrayList.get(teamOneIndex*3+1).getName(), 
+                                           " ", speakersArrayList.get(teamTwoIndex*3+1).getName() , " ", negButton });
+
+        System.out.println("Input points index*3 + 1 " + teamOneIndex*3 + teamTwoIndex*3);
+        
+        pointsPairing.addRow(new Object[]{ " ", speakersArrayList.get(teamOneIndex*3+2).getName(), 
+                                           " ", speakersArrayList.get(teamTwoIndex*3+2).getName() , " " });     
+        
+        System.out.println("Input points index*3 + 2 " + teamOneIndex*3 + teamTwoIndex*3);
+        
+        //Extra row for formatting
+        pointsPairing.addRow(new Object[]{ " ", " ", " ", " ", " "});    
+    
+    }
+    
+    /*
+     *Records the points inserted into the table and assigns them
+     *to each team and speaker
+     */
+    private void inputPoints(){
+        
+        roundNumber();
+        
+        //Iterates through each row of teams 
+        //(there are two teams with three speakers per row)
+        for(int i = 0; i < numSpeakers/6; i++){
+        
+            //Iterates through each speaker within each row of teams
+            for(int j = 0; j < 3; j++){                                                                    
+            
+                //Weird team indexing makes sure that the points get assigned to the correct team 
+                double points = Double.parseDouble((String) pointsPairing.getValueAt(5*i+1+j, 2));
+                speakersArrayList.get((teamsArrayList.get(i).getIndex())*3+j).addPts(numRounds, points);              
+                teamsArrayList.get(i).addPts(points);
+                
+                points = Double.parseDouble((String) pointsPairing.getValueAt(5*i+1+j, 4)); 
+                speakersArrayList.get((teamsArrayList.get(numTeams/2+i).getIndex())*3 + j).addPts(numRounds, points);
+                teamsArrayList.get(numTeams/2+i).addPts(points);               
+            }      
+        }
+    }
+    
+    /*
+     *Speaker list sorter
+     *Sorts according to total points
+     */  
+    public class Sorter implements Comparator<Speaker>{
+
+	@Override
+	public int compare(Speaker e1, Speaker e2) {
+            if(e1.getPts(1) < e2.getPts(1)){
+			return 1;
+		} else {
+			return -1;
+		}
+	}
+    }
+    
+    /*
+     *Team list sorter
+     *Sorts according to number of wins + total points
+     */
+    public class SorterTeams implements Comparator<Team>{
+
+	@Override
+	public int compare(Team e1, Team e2) {
+            if(e1.getRanking() < e2.getRanking()){
+			return 1;
+		} else {
+			return -1;
+		}
+	}
+    }
+    
+    /*
+     *Judges list sorter
+     *Sorts according to level of qualification
+     *TODO: Make it work lol
+     */
+    public class SorterJudges implements Comparator<Judge>{
+
+	@Override
+	public int compare(Judge e1, Judge e2) {
+            if(e1.getQual() < e2.getQual()){
+			return 1;
+		} else {
+			return -1;
+	 	}
+	}
+    }
+    
+    private void freezeteamsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_freezeteamsButtonActionPerformed
+        
+        for (int i = 0; i < textareaArrayList.size(); i++) {
+            textareaArrayList.get(i).setEditable(false);
+        }
+ 
+        
+        
+        
+    System.out.println("1");       
+
+        TeamsPanel.setEnabledAt(2, true);
+        TeamsPanel.setEnabledAt(3, true);
+        firststatusbarLabel.setText("Teams frozen.");
+        freezeteamsButton.setText("Teams frozen");
+        freezeteamsButton.setEnabled(false);
+        
+        updateJudges();
+       
+        Collections.sort(judgesArrayList, new SorterJudges());
+       
+       // updateJudges();
+        
+    System.out.println("2"); 
+        
+        updateTeams();
+   
+    System.out.println("3");
+       
+        
+    System.out.println("4");
+        
+        updateTeamRank();
+        
+    System.out.println("5");
+        
+        updateSpeakers();
+        
+    System.out.println("6");
+        
+        numRounds++;
+    
+        randomPairing();
+        
+    System.out.println("7");
+        
+    }//GEN-LAST:event_freezeteamsButtonActionPerformed
+
+    private void inputPointsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputPointsButtonActionPerformed
+        
+        inputPoints();
+        updateSpeakers(numRounds);
+        updateTeams();
+        
+        Collections.sort(teamsArrayList, new SorterTeams());
+        updateTeamRank();
+        inputPointsButton.setEnabled(false);
+    }//GEN-LAST:event_inputPointsButtonActionPerformed
+
+    private void newRoundButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newRoundButtonActionPerformed
+        inputPointsButton.setEnabled(true);
+        
+        numRounds++;
+        
+        if(numRounds == 2){
+            highLowPairing();}
+        else
+            highHighPairing();
+        
+    }//GEN-LAST:event_newRoundButtonActionPerformed
+
+    private void SpeakerOneNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SpeakerOneNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SpeakerOneNameActionPerformed
+
+    private void SpeakerThreeNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SpeakerThreeNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SpeakerThreeNameActionPerformed
+
+    private void TeamNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TeamNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TeamNameActionPerformed
+
+    private void OrganizationNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OrganizationNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_OrganizationNameActionPerformed
+
+    private void SpeakerTwoNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SpeakerTwoNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SpeakerTwoNameActionPerformed
+
+    
+    private void addTeamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTeamActionPerformed
+        DefaultTableModel model = (DefaultTableModel) teamTableDesign.getModel();
+        String Team = TeamName.getText();
+        String SpOne = SpeakerOneName.getText();
+        String SpTwo = SpeakerTwoName.getText();
+        String SpThree = SpeakerThreeName.getText();
+        String Organization = OrganizationName.getText();
+        model.addRow(new Object[]{Team, SpOne, SpTwo, SpThree, Organization});
+        numTeams ++;
+        numSpeakers += 3;
+    }//GEN-LAST:event_addTeamActionPerformed
+
+    private void JudgeNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JudgeNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_JudgeNameActionPerformed
+
+    private void JudgeInstitutionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JudgeInstitutionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_JudgeInstitutionActionPerformed
+
+    private void JudgeExperienceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JudgeExperienceActionPerformed
+
+    }//GEN-LAST:event_JudgeExperienceActionPerformed
+
+    private void JudgeExperienceComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_JudgeExperienceComponentAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_JudgeExperienceComponentAdded
+
+    private void AddJudgeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddJudgeActionPerformed
+        DefaultTableModel model = (DefaultTableModel) judgeTable.getModel();
+        String name = JudgeName.getText();
+        String institution = JudgeInstitution.getText();
+        String experience = (String)JudgeExperience.getSelectedItem();
+        model.addRow(new Object[]{name, institution, experience});
+        numJudges++;
+    }//GEN-LAST:event_AddJudgeActionPerformed
+
+    private void RemoveTeamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveTeamActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_RemoveTeamActionPerformed
+
+    private void AddRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddRoomActionPerformed
+
+        DefaultTableModel model = (DefaultTableModel) RoomList.getModel();
+        String room = RoomTextField.getText();
+        model.addRow(new Object[]{room});
+        numRooms++;
+    }//GEN-LAST:event_AddRoomActionPerformed
 
     /**
      * @param args the command line arguments
@@ -210,20 +1953,109 @@ public class Frame extends javax.swing.JFrame {
         //</editor-fold>
     }
 
-    final private JTextPane judges = new JTextPane();
-    private ArrayList<Judge> judgesArrayList;
-    private Hashtable<Integer, JTextArea> textareaHash = new Hashtable<Integer, JTextArea>();
-    private ArrayList<Team> teamsArrayList;
-    private int numberOfTeamsPlusOne = 1;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addteamButton;
-    private javax.swing.JTextField addteamTextField;
-    private javax.swing.JButton deleteteamButton;
+    private javax.swing.JButton AddJudge;
+    private javax.swing.JButton AddRoom;
+    private javax.swing.JPanel InputPointsFive;
+    private javax.swing.JPanel InputPointsFour;
+    private javax.swing.JPanel InputPointsOne;
+    private javax.swing.JPanel InputPointsSeven;
+    private javax.swing.JPanel InputPointsSix;
+    private javax.swing.JPanel InputPointsThree;
+    private javax.swing.JPanel InputPointsTwo;
+    private javax.swing.JComboBox<String> JudgeExperience;
+    private javax.swing.JTextField JudgeInstitution;
+    private javax.swing.JTextField JudgeName;
+    private javax.swing.JTextField OrganizationName;
+    private javax.swing.JTabbedPane PairingFive;
+    private javax.swing.JTable PairingFiveTable;
+    private javax.swing.JTabbedPane PairingFour;
+    private javax.swing.JTable PairingFourTable;
+    private javax.swing.JTabbedPane PairingOne;
+    private javax.swing.JTable PairingOneTable;
+    private javax.swing.JPanel PairingPrintFive;
+    private javax.swing.JPanel PairingPrintFour;
+    private javax.swing.JPanel PairingPrintOne;
+    private javax.swing.JPanel PairingPrintSeven;
+    private javax.swing.JPanel PairingPrintSix;
+    private javax.swing.JPanel PairingPrintThree;
+    private javax.swing.JPanel PairingPrintTwo;
+    private javax.swing.JTabbedPane PairingSeven;
+    private javax.swing.JTable PairingSevenTable;
+    private javax.swing.JTabbedPane PairingSix;
+    private javax.swing.JTable PairingSixTable;
+    private javax.swing.JTabbedPane PairingThree;
+    private javax.swing.JTable PairingThreeTable;
+    private javax.swing.JTabbedPane PairingTwo;
+    private javax.swing.JTable PairingTwoTable;
+    private javax.swing.JButton RemoveTeam;
+    private javax.swing.JTable RoomList;
+    private javax.swing.JTextField RoomTextField;
+    private javax.swing.JTabbedPane Rounds;
+    private javax.swing.JTextField SpeakerOneName;
+    private javax.swing.JTextField SpeakerThreeName;
+    private javax.swing.JTextField SpeakerTwoName;
+    private javax.swing.JTextField TeamName;
+    private javax.swing.JTabbedPane TeamsPanel;
+    private javax.swing.JToggleButton addTeam;
     private javax.swing.JLabel firststatusbarLabel;
+    private javax.swing.JButton freezeteamsButton;
+    private javax.swing.JToggleButton inputPointsButton;
+    private javax.swing.JInternalFrame jInternalFrame1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JButton makematchesButton;
-    private javax.swing.JTabbedPane tabbedpane;
+    private javax.swing.JScrollPane jScrollPane10;
+    private javax.swing.JScrollPane jScrollPane11;
+    private javax.swing.JScrollPane jScrollPane13;
+    private javax.swing.JScrollPane jScrollPane14;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
+    private javax.swing.JTable judgeTable;
+    private javax.swing.JButton newRoundButton;
+    private javax.swing.JTable rTeamTable;
+    private javax.swing.JScrollPane roundFivePoints;
+    private javax.swing.JScrollPane roundFourPoints;
+    private javax.swing.JTable roundPoints;
+    private javax.swing.JTable roundPoints2;
+    private javax.swing.JTable roundPoints3;
+    private javax.swing.JTable roundPoints4;
+    private javax.swing.JTable roundPoints5;
+    private javax.swing.JTable roundPoints6;
+    private javax.swing.JTable roundPoints7;
+    private javax.swing.JScrollPane roundSevenPoints;
+    private javax.swing.JScrollPane roundSixPoints;
+    private javax.swing.JScrollPane roundThreePoints;
+    private javax.swing.JScrollPane roundTwoPoints;
+    private javax.swing.JTable speakerTable;
+    private javax.swing.JTable teamTableDesign;
     // End of variables declaration//GEN-END:variables
+
+    private ImageIcon createImageIcon(String imagesmiddlegif) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
+
