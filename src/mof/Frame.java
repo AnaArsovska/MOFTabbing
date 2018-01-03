@@ -1845,6 +1845,8 @@ public class Frame extends javax.swing.JFrame {
         inputPointsButton.setEnabled(true);
         
         numRounds++;
+	    
+	System.out.println("ROUND NUMBER: " + numRounds);
         
         if(numRounds == 2){
             highLowPairing();}
