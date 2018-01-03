@@ -1834,8 +1834,7 @@ public class Frame extends javax.swing.JFrame {
         
         inputPoints();
         updateSpeakers(numRounds);
-        updateTeams();
-        
+	    
         Collections.sort(teamsArrayList, new SorterTeams());
         updateTeamRank();
         inputPointsButton.setEnabled(false);
