@@ -60,7 +60,7 @@ public class Frame extends javax.swing.JFrame {
         this.textareaArrayList = new ArrayList<>();
         initComponents();
         this.setTitle("MOF Tabulation");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setMinimumSize(new Dimension(480, 360));
         setIconImage(new ImageIcon(getClass().getClassLoader().getResource("mof/logo.png")).getImage());
         
